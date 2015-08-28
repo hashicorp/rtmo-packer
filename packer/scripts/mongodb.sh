@@ -5,5 +5,3 @@ sudo wget -P /tmp https://apt.puppetlabs.com/puppetlabs-release-precise.deb
 sudo dpkg -i /tmp/puppetlabs-release-precise.deb
 sudo apt-get -y update
 sudo apt-get -y install puppet vim git
-sudo puppet module install jay-letschat
-sudo puppet apply -e "class { 'letschat::db': user => 'lcadmin', pass => 'somepass', database_name => 'letschat', }"

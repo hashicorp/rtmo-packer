@@ -22,6 +22,11 @@
     {
         "type": "shell",
         "script": "scripts/mongodb.sh"
+    },
+    {
+	"type": "puppet-masterless",
+	"manifest_file": "puppet/manifests/mongodb.pp",
+	"module_paths": ["puppet/modules/"]
     }
     ],
     "post-processors": [
