@@ -24,21 +24,15 @@
         "script": "scripts/mongodb.sh"
     },
     {
-        "type": "file",
-        "source": "puppet/mongodb.pp",
-        "destination": "/etc/puppet/manifests/mongodb.pp"
-    },
-    {
         "type": "puppet-masterless",
-        "manifest_file": "/etc/puppet/manfiests/mongodb.pp",
-        "module_paths" : ["/etc/puppet/modules"]
+        "manifest_file": "puppet/mongodb.pp"
     }
     ],
     "post-processors": [
       {
         "type": "atlas",
         "artifact": "{{user `atlas_username`}}/mongodb",
-        "artifact_type": "aws.ami",
+        "artifact_type": "amazon.ami",
         "metadata": {
           "created_at": "{{timestamp}}"
         }
