@@ -1,0 +1,47 @@
+{
+    "variables": {
+        "aws_access_key": "{{env `aws_access_key`}}",
+        "aws_secret_key": "{{env `aws_access_key`}}",
+        "atlas_username": "{{env `atlas_username`}}"
+    },
+    "builders": [{
+        "type": "amazon-ebs",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_key`}}",
+        "region": "us-east-1",
+        "source_ami": "ami-cf5beba4",
+        "instance_type": "t2.micro",
+        "ssh_username": "ubuntu",
+        "ami_name": "mongodb {{timestamp}}"
+    }],
+    "push": {
+      "name": "{{user `atlas_username`}}/mongodb",
+      "vcs": false
+    },
+    "provisioners": [
+    {
+        "type": "shell",
+        "script": "scripts/mongodb.sh"
+    },
+    {
+        "type": "file",
+        "source": "puppet/mongodb.pp",
+        "destination": "/etc/puppet/manifests/mongodb.pp"
+    },
+    {
+        "type": "puppet-masterless",
+        "manifest_file": "/etc/puppet/manfiests/mongodb.pp",
+        "module_paths" : ["/etc/puppet/modules"]
+    }
+    ],
+    "post-processors": [
+      {
+        "type": "atlas",
+        "artifact": "{{user `atlas_username`}}/mongodb",
+        "artifact_type": "aws.ami",
+        "metadata": {
+          "created_at": "{{timestamp}}"
+        }
+      }
+    ]
+}
