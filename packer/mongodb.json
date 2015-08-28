@@ -2,7 +2,7 @@
     "variables": {
         "aws_access_key": "{{env `aws_access_key`}}",
         "aws_secret_key": "{{env `aws_access_key`}}",
-        "atlas_username": "{{env `atlas_username`}}"
+        "atlas_username": "ptr"
     },
     "builders": [{
         "type": "amazon-ebs",
@@ -22,17 +22,13 @@
     {
         "type": "shell",
         "script": "scripts/mongodb.sh"
-    },
-    {
-        "type": "puppet-masterless",
-        "manifest_file": "puppet/mongodb.pp"
     }
     ],
     "post-processors": [
       {
         "type": "atlas",
         "artifact": "{{user `atlas_username`}}/mongodb",
-        "artifact_type": "amazon.ami",
+        "artifact_type": "aws.ami",
         "metadata": {
           "created_at": "{{timestamp}}"
         }
