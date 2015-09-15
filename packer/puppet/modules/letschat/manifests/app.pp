@@ -20,7 +20,7 @@ class letschat::app (
   $registration    = $letschat::params::registration,
 ) inherits letschat::params {
 
-  $dependencies = ['g++', 'make', 'git', 'curl', 'vim']
+  $dependencies = ['g++', 'make', 'git', 'curl', 'vim', 'libkrb5-dev']
 
   class { 'nodejs':
     repo_url_suffix => 'node_0.12',
@@ -33,7 +33,7 @@ class letschat::app (
   vcsrepo { $deploy_dir:
     ensure   => present,
     provider => git,
-    source   => 'https://github.com/sdelements/lets-chat.git',
+    source   => 'https://github.com/hashicorp/lets-chat.git',
     require  => Class['nodejs'],
   }
 
